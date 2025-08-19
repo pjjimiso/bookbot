@@ -7,8 +7,12 @@ from stats import sort_chars_by_count
 
 def get_book_text(path_to_file):
     file_text = ""
-    with open(path_to_file) as f: 
-        file_text = f.read()
+    try: 
+        with open(path_to_file) as f: 
+            file_text = f.read()
+    except FileNotFoundError: 
+        print(f"ERROR: file not found: {path_to_file}")
+        sys.exit(1)
 
     return file_text
 
@@ -19,12 +23,10 @@ def main():
         sys.exit(1)
 
     book_file_path = sys.argv[1]
-    print(f"Book to analyze: {book_file_path}")
-    print("============ BOOKBOT ============")
-    #book_file_path = "./books/frankenstein.txt"
 
-    print(f"Analyzing book found at {book_file_path}") 
     book_text = get_book_text(book_file_path)
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {book_file_path}") 
 
     print("----------- Word Count ----------")
     num_words = get_num_words(book_text)
